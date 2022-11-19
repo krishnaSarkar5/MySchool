@@ -1,6 +1,8 @@
 package com.MySchool.entities.user;
 
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,13 +12,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import com.MySchool.entities.Role;
+import com.MySchool.entities.master.Role;
 import com.MySchool.master.entities.MasterCountryCode;
+import com.MySchool.user.registration.dto.RegistrationRequestDto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 @Entity
+@NoArgsConstructor
 public class User {
 
 	@Id
@@ -51,5 +61,22 @@ public class User {
 	
 	@Column(name = "status")
 	private Integer status;
+	
+	@Column(name = "created_at")
+	private LocalDateTime createdAt;
+	
+	@Column(name = "updated_at")
+	private LocalDateTime updatedAt;
+	
+	
+	public User(RegistrationRequestDto registrationRequestDto) {
+		this.firstName=registrationRequestDto.getFirstName();
+		this.lastName=registrationRequestDto.getLastName();
+		this.email=registrationRequestDto.getEmail();
+		this.phoneNo=registrationRequestDto.getPhoneNo();
+		this.password=registrationRequestDto.getPassword();
+		this.createdAt=LocalDateTime.now();
+		
+	}
 }
 

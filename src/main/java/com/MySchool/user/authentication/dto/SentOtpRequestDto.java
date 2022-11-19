@@ -16,7 +16,7 @@ import lombok.Setter;
 public class SentOtpRequestDto {
 
 	@NotNull(message = "otpSentAt can not be null")
-	private String otpSentAt;
+	private String otpSentTo;
 	
 	private Long countryCodeId;
 	

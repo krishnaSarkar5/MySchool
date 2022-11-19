@@ -20,7 +20,7 @@ import com.MySchool.utility.ErrorMessages;
 
 
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class AppExceptionHandler {
 
 	@Autowired

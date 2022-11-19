@@ -1,4 +1,4 @@
-package com.MySchool.entities;
+package com.MySchool.entities.master;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +17,7 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String titile;
+	private String title;
 	
 	private Integer status;
 }

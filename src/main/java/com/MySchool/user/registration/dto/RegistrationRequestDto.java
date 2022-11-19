@@ -19,4 +19,7 @@ public class RegistrationRequestDto {
 	private String phoneNo;
 	
 	private String password;
+	
+	private Long roleId;
+	
 }

@@ -3,12 +3,13 @@ package com.MySchool.security;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.MySchool.entities.Role;
+import com.MySchool.entities.master.Role;
 import com.MySchool.entities.user.User;
 
 
@@ -18,41 +19,39 @@ public class JwtUserDetails implements UserDetails{
 	
 	
 	
-	private String userName;
+	private String username;
 	
 	private String password;
 	
-	private Role role;
+	private boolean isActive;
+	private List<String> listAuthority;
 	
 	
-
-	public JwtUserDetails(User user) {
+	public JwtUserDetails(String username, String password, List<String> listAuthority, boolean isActive) {
 		super();
-		this.userName = user.getEmail();
-		this.password = user.getPassword();
-		this.role = user.getRole();
+		this.username = username;
+		this.password = password;
+		this.listAuthority = listAuthority;
+		this.isActive = isActive;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-
-		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		
-		authorities.add(new SimpleGrantedAuthority(this.role.getTitile()));
-		
-		return authorities;
+		return listAuthority.stream()
+				.map(role -> new SimpleGrantedAuthority(role))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return this.password;
+		return password;
 	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.userName;
+		return username;
 	}
 
 	@Override
@@ -76,7 +75,7 @@ public class JwtUserDetails implements UserDetails{
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
-		return true;
+		return isActive;
 	}
 
 }

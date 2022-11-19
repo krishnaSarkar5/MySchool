@@ -8,8 +8,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import com.MySchool.entities.user.User;
 import com.MySchool.exception.ServiceException;
 import com.MySchool.master.entities.MasterCountryCode;
 
@@ -19,8 +21,11 @@ public class CommonUtils {
 	@Autowired
 	private static ErrorMessages errorMessages;
 	
+	@Autowired
+	private Environment environment;
 	
-	public static boolean isEmailValid(String emailAddress) {
+	
+	public  boolean isEmailValid(String emailAddress) {
 		
 //		ErrorMessages errorMessages = new ErrorMessages();
 		 
@@ -40,7 +45,7 @@ public class CommonUtils {
 	}
 	
 	
-	 public static boolean isCountryCodeValid(String str)
+	 public  boolean isCountryCodeValid(String str)
 	    {
 //		 	ErrorMessages errorMessages = new ErrorMessages();
 		 
@@ -62,7 +67,7 @@ public class CommonUtils {
 	        return m.matches();
 	    }
 	    
-	    public static boolean isPhoneNumberValid(String str)
+	    public  boolean isPhoneNumberValid(String str)
 	    {
 	    	
 //	    	ErrorMessages errorMessages = new ErrorMessages();
@@ -87,7 +92,7 @@ public class CommonUtils {
 	    }
 	    
 	    
-	    public static boolean isPhoneNumberValid(String str,Long countryCode)
+	    public  boolean isPhoneNumberValid(String str,Long countryCode)
 	    {
 	    	
 	    	
@@ -141,7 +146,7 @@ public class CommonUtils {
 //	    	return true;
 //	    }
 	    
-	    public static String generateOtp(int length) {
+	    public  String generateOtp(int length) {
 	    	String numbers = "1234567890";
 	        Random random = new Random();
 	        char[] otp = new char[length];
@@ -150,6 +155,63 @@ public class CommonUtils {
 	           otp[i] = numbers.charAt(random.nextInt(numbers.length()));
 	        }
 	        return new String(otp);
+	    }
+	    
+	    public  boolean isValidPassword(String password) {
+	    	
+	    	 String regex = "^(?=.*[0-9])"
+                     + "(?=.*[a-z])(?=.*[A-Z])"
+                     + "(?=.*[@#$%^&+=])"
+                     + "(?=\\S+$).{8,20}$";
+
+     
+	    	 Pattern p = Pattern.compile(regex);
+
+      
+	    	 if (password == null) {
+	    		 return false;
+	    	 }
+
+      
+	    	 Matcher m = p.matcher(password);
+
+	    	return m.matches();
+	    	
+	    }
+	    
+	    public  String generateProfileId(User user) {
+	    	
+	    	String profileId = "";
+	    	
+	    	int size = Integer.parseInt(environment.getProperty("sizeOfProfileId"));
+	    	
+	    	String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	    	         + "0123456789"
+	    	         + "abcdefghijklmnopqrstuvxyz";
+	    	 
+	    	  StringBuilder sb = new StringBuilder(size);	    	 
+	    	  for (int i = 0; i < size; i++) {
+	    	  
+	    	   int index
+	    	    = (int)(AlphaNumericString.length()
+	    	      * Math.random());
+	    		    	  
+	    	   sb.append(AlphaNumericString
+	    	      .charAt(index));
+	    	  }
+	    	 
+	    	  if(user.getRole().getId()==Integer.parseInt(environment.getProperty("teacher"))) {
+	    		  
+	    		  profileId = "MST-"+sb.toString();
+	    		  
+	    	  }else if (user.getRole().getId()==Integer.parseInt(environment.getProperty("student"))) {
+				
+	    		  profileId = "MSS-"+sb.toString();
+			}
+	    	  
+	    	  
+	    	  return profileId;
+	
 	    }
 
 }
