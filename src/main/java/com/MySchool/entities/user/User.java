@@ -1,8 +1,10 @@
 package com.MySchool.entities.user;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.management.ConstructorParameters;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -67,6 +69,9 @@ public class User {
 	
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
+	
+	@Column(name = "date_of_birth")
+	private LocalDate dateOfBirth;
 	
 	
 	public User(RegistrationRequestDto registrationRequestDto) {

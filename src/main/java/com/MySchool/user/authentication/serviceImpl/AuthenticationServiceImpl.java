@@ -39,6 +39,7 @@ import com.MySchool.user.authentication.dto.LoginWithPasswordRequestDto;
 import com.MySchool.user.authentication.dto.SentOtpRequestDto;
 import com.MySchool.user.authentication.dto.ValidateOtpRequest;
 import com.MySchool.user.authentication.service.AuthenticationService;
+import com.MySchool.utility.AuthenticationUtil;
 import com.MySchool.utility.CommonUtils;
 import com.MySchool.utility.ErrorMessages;
 
@@ -77,6 +78,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	
 	@Autowired
 	private UserLoginTokenRepository userLoginTokenRepository;
+	
+	@Autowired
+	private AuthenticationUtil authenticationUtil;
 
 	
 	
@@ -524,6 +528,32 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		 
 		 ResponseDto responseDto = this.getJwtToken(existedUser, null, loginWithOtpRequestDto);
 		 
+		return responseDto;
+	}
+
+
+	@Override
+	public ResponseDto logout(String authorization) {
+		
+		ResponseDto responseDto = new ResponseDto();
+		
+		User user = authenticationUtil.currentLoggedInUser().getUser();
+		
+		UserLoginToken existedToken = userLoginTokenRepository.findByTokenAndStatus( authorization, Integer.parseInt(environment.getProperty("active")));
+		
+		if(Objects.isNull(existedToken)) {
+			throw new ServiceException(errorMessages.getErrorMessages("INVALID_DATA"));
+		}
+		
+		existedToken.setStatus(Integer.parseInt(environment.getProperty("inactive")));
+		existedToken.setLogoutTime(LocalDateTime.now());
+		
+		userLoginTokenRepository.save(existedToken);
+		
+		responseDto.setStatus(true);
+		responseDto.setMessage("SUCCESSFULL");
+		responseDto.setData("Log out successfully");
+		
 		return responseDto;
 	}
 

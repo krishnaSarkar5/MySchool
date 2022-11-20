@@ -15,4 +15,6 @@ public interface AuthenticationService {
 	public ResponseDto loginWithPassword(LoginWithPasswordRequestDto loginWithPasswordRequestDto);
 	
 	public ResponseDto loginWithOtp(LoginWithOtpRequestDto loginWithOtpRequestDto);
+	
+	public ResponseDto logout(String authorization);
 }
