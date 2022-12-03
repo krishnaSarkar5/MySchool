@@ -2,7 +2,7 @@ package com.MySchool.user.authentication.dto;
 
 import javax.validation.constraints.NotNull;
 
-import com.MySchool.master.repositories.TblErrorMessagesRepository;
+import com.MySchool.repositories.master.TblErrorMessagesRepository;
 import com.MySchool.utility.CommonUtils;
 import com.MySchool.utility.ErrorMessages;
 import com.fasterxml.jackson.annotation.JsonIgnore;

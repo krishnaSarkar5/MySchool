@@ -1,4 +1,4 @@
-package com.MySchool.master.entities;
+package com.MySchool.entities.master;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

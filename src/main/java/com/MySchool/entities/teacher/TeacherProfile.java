@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
+import com.MySchool.entities.master.MasterClass;
 import com.MySchool.entities.master.MasterQualification;
 import com.MySchool.entities.master.MasterSubject;
 import com.MySchool.entities.user.User;
@@ -25,6 +26,11 @@ public class TeacherProfile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	
+	@ManyToMany
+	private List<MasterClass> classList;
+	
 	
 	@ManyToMany
 	private List<MasterQualification> qualifications;
@@ -41,4 +47,8 @@ public class TeacherProfile {
 	
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
+	
+
+	
+	
 }

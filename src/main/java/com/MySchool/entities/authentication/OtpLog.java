@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.MySchool.master.entities.MasterCountryCode;
+import com.MySchool.entities.master.MasterCountryCode;
 
 import lombok.Data;
 

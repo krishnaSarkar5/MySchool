@@ -3,6 +3,7 @@ package com.MySchool.entities.user;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.management.ConstructorParameters;
 import javax.persistence.Column;
@@ -14,8 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.MySchool.entities.master.MasterCountryCode;
 import com.MySchool.entities.master.Role;
-import com.MySchool.master.entities.MasterCountryCode;
 import com.MySchool.user.registration.dto.RegistrationRequestDto;
 
 import lombok.AllArgsConstructor;
@@ -53,6 +54,7 @@ public class User {
 	@Column(name="profile_id")
 	private String profileId;
 	
+	
 	@ManyToOne
 	@JoinColumn(name = "country_code_id")
 	private MasterCountryCode masterCountryCode;
@@ -73,6 +75,9 @@ public class User {
 	@Column(name = "date_of_birth")
 	private LocalDate dateOfBirth;
 	
+	@Column(name = "journey_status")
+	private Integer journeyStatus;
+	
 	
 	public User(RegistrationRequestDto registrationRequestDto) {
 		this.firstName=registrationRequestDto.getFirstName();
@@ -81,7 +86,7 @@ public class User {
 		this.phoneNo=registrationRequestDto.getPhoneNo();
 		this.password=registrationRequestDto.getPassword();
 		this.createdAt=LocalDateTime.now();
-		
+		this.dateOfBirth=LocalDate.parse(registrationRequestDto.getDateOfBirth(),DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 	}
 }
 

@@ -12,15 +12,15 @@ import org.springframework.stereotype.Service;
 
 import com.MySchool.dto.authenticationDto.ResponseDto;
 import com.MySchool.entities.authentication.OtpLog;
+import com.MySchool.entities.master.MasterCountryCode;
 import com.MySchool.entities.master.Role;
 import com.MySchool.entities.teacher.TeacherProfile;
 import com.MySchool.entities.user.User;
 import com.MySchool.exception.ServiceException;
-import com.MySchool.master.entities.MasterCountryCode;
-import com.MySchool.master.repositories.MasterCountryCodeRepository;
 import com.MySchool.repositories.RoleRepository;
 import com.MySchool.repositories.UserRepository;
 import com.MySchool.repositories.authentication.OtpLogRepository;
+import com.MySchool.repositories.master.MasterCountryCodeRepository;
 import com.MySchool.repositories.teacher.TeacherProfileRepository;
 import com.MySchool.user.registration.dto.RegistrationRequestDto;
 import com.MySchool.user.registration.service.RegistrationService;
@@ -107,12 +107,15 @@ public class RegistrationServiceImpl implements RegistrationService {
 		newTeacher.setRole(existedRole.get());
 		newTeacher.setProfileId(commonUtils.generateProfileId(newTeacher));
 		newTeacher.setStatus(Integer.parseInt(environment.getProperty("active")));
-		
+		newTeacher.setJourneyStatus(Integer.parseInt(environment.getProperty("registrationCompleted")));
+		newTeacher.setCreatedAt(LocalDateTime.now());
+		newTeacher.setUpdatedAt(LocalDateTime.now());
 		
 		User savedTeacher = userRepository.save(newTeacher);
 		
 		TeacherProfile teacherProfile = new TeacherProfile();
 		teacherProfile.setCreatedAt(LocalDateTime.now());
+		teacherProfile.setUpdatedAt(LocalDateTime.now());
 		teacherProfile.setUser(savedTeacher);
 		
 		teacherProfileRepository.save(teacherProfile);
@@ -146,7 +149,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		if(Objects.isNull(registrationRequestDto.getRoleId()) || registrationRequestDto.getRoleId()==0L) {
 			errorMap.put("role id", "Invalid role id");
 		}
-		// if role is teacher then both email and phone is mandatory
+		// if role is teacher, then both email and phone is mandatory
 		else if (registrationRequestDto.getRoleId()==Long.parseLong(environment.getProperty("teacher"))) {
 			if(Objects.isNull(registrationRequestDto.getEmail()) || registrationRequestDto.getEmail().equals("")) {
 				errorMap.put("Email", "Email can not be null");
@@ -160,7 +163,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 				errorMap.put("Phone No", "Invalid Phone no");
 			}
 		}
-		// if role is student any one among email and phone is mandatory
+		// if role is student, any one among email and phone is mandatory
 		else if (registrationRequestDto.getRoleId()==Long.parseLong(environment.getProperty("student"))) {
 			
 			

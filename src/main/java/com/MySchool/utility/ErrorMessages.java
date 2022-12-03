@@ -3,8 +3,8 @@ package com.MySchool.utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.MySchool.master.entities.TblErrorMessages;
-import com.MySchool.master.repositories.TblErrorMessagesRepository;
+import com.MySchool.entities.master.TblErrorMessages;
+import com.MySchool.repositories.master.TblErrorMessagesRepository;
 
 
 

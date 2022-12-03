@@ -22,4 +22,6 @@ public class RegistrationRequestDto {
 	
 	private Long roleId;
 	
+	private String dateOfBirth;
+	
 }

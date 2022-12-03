@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import com.MySchool.entities.master.MasterCountryCode;
 import com.MySchool.entities.user.User;
 import com.MySchool.exception.ServiceException;
-import com.MySchool.master.entities.MasterCountryCode;
 
 @Component
 public class CommonUtils {

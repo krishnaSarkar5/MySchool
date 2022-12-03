@@ -1,4 +1,4 @@
-package com.MySchool.master.entities;
+package com.MySchool.entities.master;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
